@@ -28,11 +28,25 @@ public_users.get('/isbn/:isbn',function (req, res) {
         res.status(404).json({ message: "Book not found" });
     }
  });
-  
+
+ 
+//TASK 3
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
-    const author = req.params.author;
-    res.send(books[author]);
+    const author = req.params.author; // 1. Get the author name from the URL
+    const bookKeys = Object.keys(books);  // 2. Get all the keys (ISBNs) from the books object
+
+//Filter books where the author matches (case-insensitive match is safer)
+    const matchingBooks = bookKeys
+        .map((isbn) => books[isbn])
+        .filter((book) => book.author.toLowerCase() === author.toLowerCase());
+
+//Return the result
+    if (matchingBooks.length > 0) {
+        res.json(matchingBooks);
+    } else {
+        res.status(404).json({ message: "No books found for the specified author" });
+    }
 });
 
 // Get all books based on title

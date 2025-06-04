@@ -29,7 +29,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     }
  });
 
- 
+
 //TASK 3
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
@@ -49,12 +49,26 @@ public_users.get('/author/:author',function (req, res) {
     }
 });
 
+//TASK 4
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-    const title = req.params.title;
-    res.send(books[title]);
+    const title = req.params.title; // 1. Get the title from the URL
+    const bookKeys = Object.keys(books);  // 2. Get all the keys (ISBNs) from the books object
+
+//Filter books where the title matches (case-insensitive match is safer)
+    const matchingBooks = bookKeys
+        .map((isbn) => books[isbn])
+        .filter((book) => book.title.toLowerCase() === title.toLowerCase());
+
+//Return the result
+    if (matchingBooks.length > 0) {
+        res.json(matchingBooks);
+    } else {
+        res.status(404).json({ message: "No books found for the specified title" });
+    }
 });
 
+//TASK 5
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
   //Write your code here

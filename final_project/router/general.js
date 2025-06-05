@@ -4,11 +4,13 @@ let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
-
+//TASK 6
+//Registering a new user
 public_users.post("/register", (req,res) => {
   //Write your code here
   return res.status(300).json({message: "Yet to be implemented"});
 });
+
 
 //TASK 1
 // Get the book list available in the shop
